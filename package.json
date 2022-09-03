@@ -12,7 +12,11 @@
     "expo": "~46.0.9",
     "expo-status-bar": "~1.4.0",
     "react": "18.0.0",
-    "react-native": "0.69.5"
+    "react-native": "0.69.5",
+    "react-native-gesture-handler": "~2.5.0",
+    "react-native-magnus": "^1.0.62",
+    "react-spring": "^8.0.27",
+    "react-tinder-card": "^1.5.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"
