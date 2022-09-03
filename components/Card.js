@@ -10,9 +10,7 @@ const db = [
 ];
 
 export const Card = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  useEffect(() => {}, [currentIndex]);
+  const images = db;
 
   const onSwipe = (direction) => {
     console.log('You swiped: ' + direction);
@@ -20,45 +18,46 @@ export const Card = () => {
 
   const onCardLeftScreen = (myIdentifier) => {
     console.log(myIdentifier + ' left the screen');
-    if (currentIndex > 2) {
-      setCurrentIndex(0);
-    } else {
-      setCurrentIndex(currentIndex + 1);
-    }
   };
 
   return (
     <>
       {/* Image goes in this card */}
-      <Div
-        justifyContent='flex-start'
-        alignItems='center'
-        h={530}
-        w={330}
-        rounded='2xl'
-        bg='#D8B4A0'
-        shadow='2xl'
-      >
-        <TinderCard
-          onSwipe={onSwipe}
-          onCardLeftScreen={() => onCardLeftScreen('fooBar')}
-          preventSwipe={['up', 'down']}
-        >
-          <Div mt='sm' mx='sm' h={440} w={320} rounded='2xl' shadow='2xl'>
-            {/* ActivityLoader when image is loading */}
-            <Image
+      <Div h={530} w={330} rounded='2xl' bg='#D8B4A0' shadow='2xl'>
+        {images.map((img, i) => (
+          <TinderCard
+            onSwipe={onSwipe}
+            onCardLeftScreen={() => onCardLeftScreen('fooBar')}
+            preventSwipe={['up', 'down']}
+            key={img.url}
+          >
+            <Div
+              position='absolute'
+              alignSelf='center'
+              mt='sm'
+              mx='sm'
               h={440}
               w={320}
               rounded='2xl'
-              source={{
-                uri: db[currentIndex].url,
-              }}
-            />
+              shadow='2xl'
+            >
+              <Image
+                h={440}
+                w={320}
+                rounded='2xl'
+                source={{
+                  uri: img.url,
+                }}
+              />
+            </Div>
+          </TinderCard>
+        ))}
+
+        <Div flex={1} justifyContent='flex-end'>
+          <Div row w='100%' mb='5%' justifyContent='space-around'>
+            <SwipeButton name='times' fontFamily='FontAwesome5' />
+            <SwipeButton name='heart' fontFamily='FontAwesome' />
           </Div>
-        </TinderCard>
-        <Div w='100%' mt='lg' row justifyContent='space-around'>
-          <SwipeButton name='times' fontFamily='FontAwesome5' />
-          <SwipeButton name='heart' fontFamily='FontAwesome' />
         </Div>
       </Div>
     </>
