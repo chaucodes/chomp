@@ -1,3 +1,4 @@
+import { ActivityIndicator } from 'react-native';
 import { Button, Div, Image, Text, Icon } from 'react-native-magnus';
 import React, { useState, useEffect } from 'react';
 import TinderCard from 'react-tinder-card';
@@ -9,11 +10,10 @@ export const Card = () => {
   const ACCESS_KEY = process.env.ACCESS_KEY;
 
   const [images, setImages] = useState([]);
-  const [currPage, setCurrPage] = useState(1);
   const [emptyArray, setEmptyArray] = useState(false);
 
-  const { data } = useSWR(
-    `search/photos?client_id=${ACCESS_KEY}&page=${currPage}&query=food&orientation=portrait`,
+  const { data, mutate } = useSWR(
+    `/photos/random?client_id=${ACCESS_KEY}&query=food&orientation=portrait&count=10`,
     fetcher
   );
 
@@ -22,13 +22,13 @@ export const Card = () => {
     for (let step = 0; step < 10; step++) {
       console.log('Running');
       // Runs 5 times, with values of step 0 through 4.
-      db.push(data?.results[step].urls.regular);
+      db.push(data?.[step].urls.regular);
     }
     setImages(db);
   }, [data]);
 
   const refresh = () => {
-    setCurrPage(currPage + 1);
+    mutate();
     setEmptyArray(false);
   };
 
