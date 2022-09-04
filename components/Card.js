@@ -15,7 +15,7 @@ export const Card = () => {
   const [emptyArray, setEmptyArray] = useState(false);
 
   const { data, mutate } = useSWR(
-    `/photos/random?client_id=${ACCESS_KEY}&query=food&orientation=portrait&count=10`,
+    `/photos/random?client_id=${ACCESS_KEY}&query=food&drink&orientation=portrait&count=10`,
     fetcher
   );
 
@@ -110,7 +110,7 @@ export const Card = () => {
         {emptyArray ? (
           <Div w='100%' flex={1} justifyContent='center'>
             <Text textAlign='center' fontSize='2xl'>
-              All out of images!
+              Refresh for more options
             </Text>
             <Button
               onPress={refresh}
