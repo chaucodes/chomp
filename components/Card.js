@@ -48,34 +48,40 @@ export const Card = () => {
       {/* Image goes in this card */}
       <Div h={530} w={330} rounded='2xl' bg='#D8B4A0' shadow='2xl'>
         <Div>
-          {images.map((img, i) => (
-            <Div key={img}>
-              <TinderCard
-                onSwipe={onSwipe}
-                onCardLeftScreen={() => onCardLeftScreen(i)}
-                preventSwipe={['up', 'down']}
-              >
-                <Div
-                  position='absolute'
-                  alignSelf='center'
-                  mt='sm'
-                  mx='sm'
-                  h={440}
-                  w={320}
-                  rounded='2xl'
+          {!images.length ? (
+            <>
+              <ActivityIndicator />
+            </>
+          ) : (
+            images.map((img, i) => (
+              <Div key={img}>
+                <TinderCard
+                  onSwipe={onSwipe}
+                  onCardLeftScreen={() => onCardLeftScreen(i)}
+                  preventSwipe={['up', 'down']}
                 >
-                  <Image
+                  <Div
+                    position='absolute'
+                    alignSelf='center'
+                    mt='sm'
+                    mx='sm'
                     h={440}
                     w={320}
                     rounded='2xl'
-                    source={{
-                      uri: img,
-                    }}
-                  />
-                </Div>
-              </TinderCard>
-            </Div>
-          ))}
+                  >
+                    <Image
+                      h={440}
+                      w={320}
+                      rounded='2xl'
+                      source={{
+                        uri: img,
+                      }}
+                    />
+                  </Div>
+                </TinderCard>
+              </Div>
+            ))
+          )}
         </Div>
 
         {emptyArray ? (
