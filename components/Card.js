@@ -1,17 +1,9 @@
 import { Button, Div, Image, Text, Icon } from 'react-native-magnus';
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import TinderCard from 'react-tinder-card';
 import useSWR from 'swr';
 import { SwipeButton } from './SwipeButton';
 import { fetcher } from '../utils/fetcher';
-
-// const db = [
-//   { url: 'https://picsum.photos/id/227/440/320' },
-//   { url: 'https://picsum.photos/id/532/440/320' },
-//   { url: 'https://picsum.photos/id/315/440/320' },
-//   { url: 'https://picsum.photos/id/335/440/320' },
-//   { url: 'https://picsum.photos/id/355/440/320' },
-// ];
 
 export const Card = () => {
   const ACCESS_KEY = process.env.ACCESS_KEY;
@@ -20,8 +12,8 @@ export const Card = () => {
   const [currPage, setCurrPage] = useState(1);
   const [emptyArray, setEmptyArray] = useState(false);
 
-  const { data, error, mutate } = useSWR(
-    `search/photos?client_id=${ACCESS_KEY}&page=${currPage}&query=chinese food`,
+  const { data } = useSWR(
+    `search/photos?client_id=${ACCESS_KEY}&page=${currPage}&query=food&orientation=portrait`,
     fetcher
   );
 
@@ -87,21 +79,23 @@ export const Card = () => {
         </Div>
 
         {emptyArray ? (
-          <Div flex={1} alignSelf='center' justifyContent='center'>
+          <Div w='100%' flex={1} justifyContent='center'>
             <Text textAlign='center' fontSize='2xl'>
               All out of images!
             </Text>
             <Button
               onPress={refresh}
-              h={50}
-              w={50}
+              alignSelf='center'
+              mt={10}
+              h={60}
+              w={60}
               bg='#fff'
               shadow='xl'
               rounded='circle'
             >
               <Icon
                 name='refresh'
-                fontSize={24}
+                fontSize={32}
                 color='#FF3A82'
                 shadow='md'
                 fontFamily='FontAwesome'
