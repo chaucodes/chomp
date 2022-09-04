@@ -21,26 +21,23 @@ export const Card = () => {
   const [emptyArray, setEmptyArray] = useState(false);
 
   const { data, error, mutate } = useSWR(
-    `search/photos?client_id=${ACCESS_KEY}&page=${currPage}&query=food`,
+    `search/photos?client_id=${ACCESS_KEY}&page=${currPage}&query=chinese food`,
     fetcher
   );
 
   useEffect(() => {
     let db = [];
     for (let step = 0; step < 10; step++) {
+      console.log('Running');
       // Runs 5 times, with values of step 0 through 4.
       db.push(data?.results[step].urls.regular);
     }
     setImages(db);
   }, [data]);
 
-  console.log(images, currPage);
-
   const refresh = () => {
     setCurrPage(currPage + 1);
     setEmptyArray(false);
-    mutate(`search/photos?client_id=${ACCESS_KEY}&page=${currPage}&query=food`);
-    console.log(currPage);
   };
 
   const onSwipe = (direction) => {
@@ -60,7 +57,7 @@ export const Card = () => {
       <Div h={530} w={330} rounded='2xl' bg='#D8B4A0' shadow='2xl'>
         <Div>
           {images.map((img, i) => (
-            <Div key={i}>
+            <Div key={img}>
               <TinderCard
                 onSwipe={onSwipe}
                 onCardLeftScreen={() => onCardLeftScreen(i)}
@@ -88,9 +85,7 @@ export const Card = () => {
             </Div>
           ))}
         </Div>
-        <Div>
-          <Text>Butts</Text>
-        </Div>
+
         {emptyArray ? (
           <Div flex={1} alignSelf='center' justifyContent='center'>
             <Text textAlign='center' fontSize='2xl'>
