@@ -1,10 +1,17 @@
 import { Button, Icon } from 'react-native-magnus';
 import React from 'react';
 
-export const SwipeButton = ({ name, fontFamily }) => {
+export const SwipeButton = ({ name, fontFamily, callBack }) => {
   return (
     <>
-      <Button h={50} w={50} bg='#fff' shadow='xl' rounded='circle'>
+      <Button
+        onPress={callBack}
+        h={50}
+        w={50}
+        bg='#fff'
+        shadow='xl'
+        rounded='circle'
+      >
         <Icon
           name={name}
           fontSize={24}
