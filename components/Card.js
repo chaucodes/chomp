@@ -10,11 +10,11 @@ const alreadyRemoved = [];
 
 export const Card = () => {
   const ACCESS_KEY = process.env.ACCESS_KEY;
-
+  const [isLoading, setIsLoading] = useState(true);
   const [images, setImages] = useState([]);
   const [emptyArray, setEmptyArray] = useState(false);
 
-  const { data, mutate } = useSWR(
+  const { data, mutate, error } = useSWR(
     `/photos/random?client_id=${ACCESS_KEY}&query=food&drink&orientation=portrait&count=10`,
     fetcher
   );
@@ -27,6 +27,11 @@ export const Card = () => {
     [images]
   );
 
+  const refresh = () => {
+    mutate();
+    setEmptyArray(false);
+  };
+
   useEffect(() => {
     let db = [];
     for (let step = 0; step < 10; step++) {
@@ -34,13 +39,10 @@ export const Card = () => {
       // Runs 5 times, with values of step 0 through 4.
       db.push(data?.[step].urls.regular);
     }
+    console.log(error);
     setImages(db);
+    setIsLoading(false);
   }, [data]);
-
-  const refresh = () => {
-    mutate();
-    setEmptyArray(false);
-  };
 
   const swipe = (dir) => {
     const cardsLeft = images.filter((img) => !alreadyRemoved.includes(img));
@@ -60,6 +62,7 @@ export const Card = () => {
   const onCardLeftScreen = (myIdentifier) => {
     if (myIdentifier === 0) {
       setEmptyArray(true);
+      refresh();
     }
     console.log(myIdentifier + ' left the screen');
   };
@@ -69,7 +72,7 @@ export const Card = () => {
       {/* Image goes in this card */}
       <Div h={530} w={330} rounded='2xl' bg='#D8B4A0' shadow='2xl'>
         <Div>
-          {!images.length ? (
+          {emptyArray ? (
             <>
               <ActivityIndicator />
             </>
@@ -107,29 +110,11 @@ export const Card = () => {
           )}
         </Div>
 
-        {emptyArray ? (
-          <Div w='100%' flex={1} justifyContent='center'>
+        {error ? (
+          <Div h='50%' justifyContent='center'>
             <Text textAlign='center' fontSize='2xl'>
-              Refresh for more options
+              Uh-oh!! Something went wrong
             </Text>
-            <Button
-              onPress={refresh}
-              alignSelf='center'
-              mt={10}
-              h={60}
-              w={60}
-              bg='#fff'
-              shadow='xl'
-              rounded='circle'
-            >
-              <Icon
-                name='refresh'
-                fontSize={32}
-                color='#FF3A82'
-                shadow='md'
-                fontFamily='FontAwesome'
-              />
-            </Button>
           </Div>
         ) : null}
 
