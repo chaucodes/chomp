@@ -1,11 +1,11 @@
 import { Button, Icon } from 'react-native-magnus';
 import React from 'react';
 
-export const SwipeButton = ({ name, fontFamily, callBack }) => {
+export const SwipeButton = ({ name, fontFamily, swipe, dir }) => {
   return (
     <>
       <Button
-        onPress={callBack}
+        onPress={() => swipe(dir)}
         h={50}
         w={50}
         bg='#fff'
